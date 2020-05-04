@@ -1,0 +1,9 @@
+Inbound Message
+----------------------------
+ID: 1
+Response-Code: 500
+Encoding: UTF-8
+Content-Type: text/xml;charset=utf-8
+Headers: {Accept=[text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], connection=[close], Content-Length=[286], content-type=[text/xml;charset=utf-8], Date=[Mon, 04 May 2020 17:49:03 GMT], SOAPAction=[""]}
+Payload: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring xml:lang="en">No WS-Security header found</faultstring></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+--------------------------------------

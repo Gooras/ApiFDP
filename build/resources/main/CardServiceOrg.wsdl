@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='CardService' targetNamespace='http://www.firstdata.pl/wdx/business/card/v5/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://www.firstdata.pl/wdx/business/card/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://www.firstdata.pl/wdx/business/card/v5/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://www.firstdata.pl/wdx/business/card/' version='1.0' xmlns:ns1='http://www.firstdata.pl/wdx/business/card/v5/' xmlns:tns='http://www.firstdata.pl/wdx/business/card/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://www.firstdata.pl/wdx/business/card/v5/'/>
+   <xs:element name='activateCard' nillable='true' type='tns:cardActivationRequest'/>
+   <xs:element name='activateCardResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='blockCard' nillable='true' type='tns:blockStatusCardRequest'/>
+   <xs:element name='blockCardResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='cancelEnrollment' nillable='true' type='tns:cancelEnrollmentRequest'/>
+   <xs:element name='cancelEnrollmentResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='changeCardStatus' nillable='true' type='tns:cardStatusChangeRequest'/>
+   <xs:element name='changeCardStatusResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='changePhoneNumber' nillable='true' type='tns:changePhoneNumberRequest'/>
+   <xs:element name='changePhoneNumberResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='enrollCH' nillable='true' type='tns:enrollCHRequest'/>
+   <xs:element name='enrollCHResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='enrollCard' nillable='true' type='tns:enrollCardRequest'/>
+   <xs:element name='enrollCardResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='getBalance' nillable='true' type='tns:cardBalanceRequest'/>
+   <xs:element name='getBalanceResponse' nillable='true' type='tns:cardBalance'/>
+   <xs:element name='getCardStatus' nillable='true' type='tns:cardStatusRequest'/>
+   <xs:element name='getCardStatusResponse' nillable='true' type='tns:cardStatus'/>
+   <xs:element name='manageCard' nillable='true' type='tns:manageCardRequest'/>
+   <xs:element name='manageCardResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='orderPin' nillable='true' type='tns:orderPinRequest'/>
+   <xs:element name='orderPinResponse' nillable='true' type='tns:cardIdResponse'/>
+   <xs:element name='readCardId' nillable='true' type='tns:readCardIdRequest'/>
+   <xs:element name='readCardIdResponse' nillable='true' type='tns:cardIdResponse'/>
+   <xs:element name='readCtls' nillable='true' type='tns:readCtlsRequest'/>
+   <xs:element name='readCtlsResponse' nillable='true' type='tns:readCtlsResponse'/>
+   <xs:element name='readLimits' nillable='true' type='tns:readLimitsRequest'/>
+   <xs:element name='readLimitsResponse' nillable='true' type='tns:readLimitsResponse'/>
+   <xs:element name='readSecureCode' nillable='true' type='tns:readSecureCodeRequest'/>
+   <xs:element name='readSecureCodeResponse' nillable='true' type='tns:secureCodeResult'/>
+   <xs:element name='setCtls' nillable='true' type='tns:setCtlsRequest'/>
+   <xs:element name='setCtlsResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='setLimits' nillable='true' type='tns:setLimitsRequest'/>
+   <xs:element name='setLimitsResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='setMonthlyLimits' nillable='true' type='tns:setMonthlyLimitsRequest'/>
+   <xs:element name='setMonthlyLimitsResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='unblockCard' nillable='true' type='tns:blockStatusCardRequest'/>
+   <xs:element name='unblockCardResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='unblockPin' nillable='true' type='tns:unblockPinRequest'/>
+   <xs:element name='unblockPinResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='updateCardStatus' nillable='true' type='tns:cardStatusUpdateRequest'/>
+   <xs:element name='updateCardStatusResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:element name='updateIssuerQuestions' nillable='true' type='tns:updateIssuerQuestionsRequest'/>
+   <xs:element name='updateIssuerQuestionsResponse' nillable='true' type='ns1:operationResult'/>
+   <xs:complexType name='cardActivationRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='updateIssuerQuestionsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='customQuestion1' type='xs:string'/>
+     <xs:element minOccurs='0' name='customQuestion2' type='xs:string'/>
+     <xs:element minOccurs='0' name='customQuestion3' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+     <xs:element minOccurs='0' name='temporaryPassword' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardStatusChangeRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='cardStatus' type='xs:string'/>
+     <xs:element name='expDate' type='xs:date'/>
+     <xs:element minOccurs='0' name='regionCode' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardStatusUpdateRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='cardStatus' type='xs:string'/>
+     <xs:element minOccurs='0' name='expDate' type='xs:date'/>
+     <xs:element minOccurs='0' name='regionCode' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardStatusRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardStatus'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='cardStatus' type='xs:string'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='readSecureCodeRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='secureCodeResult'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='secureCode' type='xs:string'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='cancelEnrollmentRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='enrollmentFlag' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='changePhoneNumberRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+     <xs:element name='phoneNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setMonthlyLimitsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='monthlyLimit' type='xs:long'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='orderPinRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='authenticationModel' type='xs:string'/>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='customerAnswer' type='xs:string'/>
+     <xs:element minOccurs='0' name='customerQuestion' type='xs:string'/>
+     <xs:element minOccurs='0' name='phoneNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardIdResponse'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='cardId' type='xs:string'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='readCardIdRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setCtlsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='ctlsState' type='xs:int'/>
+     <xs:element name='sendScript' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='readCtlsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='readCtlsResponse'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='ctlsResponseData' type='tns:ctlsResponseData'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='ctlsResponseData'>
+    <xs:sequence>
+     <xs:element name='ctlsState' type='xs:int'/>
+     <xs:element name='scriptState' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setLimitsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='limitsData' type='tns:limitsData'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='limitsData'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='atmCcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='atmDepCrLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='atmOfflCcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='atmOfflWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='atmUseLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='atmWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24AggrLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24CcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24OfflAggrLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24OfflCcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24OfflWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='b24WdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='ecUseLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='motoUseLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='offlEcPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='offlEcPurWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='offlMotoPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='offlMotoPurWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posCcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posOfflCcaLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posOfflPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posOfflRfndCrLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posOfflWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posRfndCrLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posUseLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='posWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='ttlEcPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='ttlEcPurWdlLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='ttlMotoPurLmt' type='xs:long'/>
+     <xs:element minOccurs='0' name='ttlMotoPurWdlLmt' type='xs:long'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='readLimitsRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='readLimitsResponse'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='limitsData' type='tns:limitsData'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='unblockPinRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='enrollCHRequest'>
+    <xs:sequence>
+     <xs:element name='atmLimit' type='xs:int'/>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='clientName' type='xs:string'/>
+     <xs:element name='cnpLimit' type='xs:int'/>
+     <xs:element name='daysNot' type='xs:int'/>
+     <xs:element minOccurs='0' name='expiryDate' type='xs:date'/>
+     <xs:element name='internLimit' type='xs:int'/>
+     <xs:element minOccurs='0' name='langId' type='xs:string'/>
+     <xs:element minOccurs='0' name='message' type='xs:string'/>
+     <xs:element minOccurs='0' name='packageName' type='xs:string'/>
+     <xs:element name='phoneNumber' type='xs:string'/>
+     <xs:element name='posLimit' type='xs:int'/>
+     <xs:element minOccurs='0' name='status' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='manageCardRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='blockFlag' type='xs:string'/>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='enrollmentFlag' type='xs:string'/>
+     <xs:element minOccurs='0' name='phoneNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='suspendedFlag' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='enrollCardRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='blockFlag' type='xs:string'/>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='cardholderName' type='xs:string'/>
+     <xs:element minOccurs='0' name='custom1' type='xs:string'/>
+     <xs:element minOccurs='0' name='custom2' type='xs:string'/>
+     <xs:element minOccurs='0' name='custom3' type='xs:string'/>
+     <xs:element minOccurs='0' name='dateOfBirth' type='xs:string'/>
+     <xs:element minOccurs='0' name='enrollmentFlag' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+     <xs:element minOccurs='0' name='idNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='maidenName' type='xs:string'/>
+     <xs:element minOccurs='0' name='pam' type='xs:string'/>
+     <xs:element minOccurs='0' name='pesel' type='xs:string'/>
+     <xs:element minOccurs='0' name='phoneNumber' type='xs:string'/>
+     <xs:element minOccurs='0' name='staticPassword' type='xs:string'/>
+     <xs:element minOccurs='0' name='temporaryPassword' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='blockStatusCardRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+     <xs:element name='expiryDate' type='xs:date'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardBalanceRequest'>
+    <xs:sequence>
+     <xs:element name='cardNumber' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cardBalance'>
+    <xs:complexContent>
+     <xs:extension base='ns1:operationResult'>
+      <xs:sequence>
+       <xs:element minOccurs='0' name='accountCashOTB' type='xs:long'/>
+       <xs:element minOccurs='0' name='accountTotalOTB' type='xs:long'/>
+       <xs:element minOccurs='0' name='availableCashFunds' type='xs:long'/>
+       <xs:element minOccurs='0' name='availableTotalFunds' type='xs:long'/>
+       <xs:element minOccurs='0' name='bonus' type='xs:long'/>
+       <xs:element minOccurs='0' name='bonusExpiryDate' type='xs:date'/>
+       <xs:element minOccurs='0' name='cardCashOTB' type='xs:long'/>
+       <xs:element minOccurs='0' name='cardStatus' type='xs:string'/>
+       <xs:element minOccurs='0' name='cardTotalOTB' type='xs:long'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://www.firstdata.pl/wdx/business/card/v5/' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:complexType name='operationResult'>
+    <xs:sequence>
+     <xs:element name='responseDate' type='xs:date'/>
+     <xs:element name='responseTime' type='xs:time'/>
+     <xs:element name='wdxMessageId' type='xs:long'/>
+     <xs:element name='wdxResponseCode' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='CardService_activateCard'>
+  <part element='ns1:activateCard' name='activateCard'/>
+ </message>
+ <message name='CardService_activateCardResponse'>
+  <part element='ns1:activateCardResponse' name='activateCardResponse'/>
+ </message>
+ <message name='CardService_blockCard'>
+  <part element='ns1:blockCard' name='blockCard'/>
+ </message>
+ <message name='CardService_blockCardResponse'>
+  <part element='ns1:blockCardResponse' name='blockCardResponse'/>
+ </message>
+ <message name='CardService_cancelEnrollment'>
+  <part element='ns1:cancelEnrollment' name='cancelEnrollment'/>
+ </message>
+ <message name='CardService_cancelEnrollmentResponse'>
+  <part element='ns1:cancelEnrollmentResponse' name='cancelEnrollmentResponse'/>
+ </message>
+ <message name='CardService_changeCardStatus'>
+  <part element='ns1:changeCardStatus' name='changeCardStatus'/>
+ </message>
+ <message name='CardService_changeCardStatusResponse'>
+  <part element='ns1:changeCardStatusResponse' name='changeCardStatusResponse'/>
+ </message>
+ <message name='CardService_changePhoneNumber'>
+  <part element='ns1:changePhoneNumber' name='changePhoneNumber'/>
+ </message>
+ <message name='CardService_changePhoneNumberResponse'>
+  <part element='ns1:changePhoneNumberResponse' name='changePhoneNumberResponse'/>
+ </message>
+ <message name='CardService_enrollCH'>
+  <part element='ns1:enrollCH' name='enrollCH'/>
+ </message>
+ <message name='CardService_enrollCHResponse'>
+  <part element='ns1:enrollCHResponse' name='enrollCHResponse'/>
+ </message>
+ <message name='CardService_enrollCard'>
+  <part element='ns1:enrollCard' name='enrollCard'/>
+ </message>
+ <message name='CardService_enrollCardResponse'>
+  <part element='ns1:enrollCardResponse' name='enrollCardResponse'/>
+ </message>
+ <message name='CardService_getBalance'>
+  <part element='ns1:getBalance' name='getBalance'/>
+ </message>
+ <message name='CardService_getBalanceResponse'>
+  <part element='ns1:getBalanceResponse' name='getBalanceResponse'/>
+ </message>
+ <message name='CardService_getCardStatus'>
+  <part element='ns1:getCardStatus' name='getCardStatus'/>
+ </message>
+ <message name='CardService_getCardStatusResponse'>
+  <part element='ns1:getCardStatusResponse' name='getCardStatusResponse'/>
+ </message>
+ <message name='CardService_manageCard'>
+  <part element='ns1:manageCard' name='manageCard'/>
+ </message>
+ <message name='CardService_manageCardResponse'>
+  <part element='ns1:manageCardResponse' name='manageCardResponse'/>
+ </message>
+ <message name='CardService_orderPin'>
+  <part element='ns1:orderPin' name='orderPin'/>
+ </message>
+ <message name='CardService_orderPinResponse'>
+  <part element='ns1:orderPinResponse' name='orderPinResponse'/>
+ </message>
+ <message name='CardService_readCardId'>
+  <part element='ns1:readCardId' name='readCardId'/>
+ </message>
+ <message name='CardService_readCardIdResponse'>
+  <part element='ns1:readCardIdResponse' name='readCardIdResponse'/>
+ </message>
+ <message name='CardService_readCtls'>
+  <part element='ns1:readCtls' name='readCtls'/>
+ </message>
+ <message name='CardService_readCtlsResponse'>
+  <part element='ns1:readCtlsResponse' name='readCtlsResponse'/>
+ </message>
+ <message name='CardService_readLimits'>
+  <part element='ns1:readLimits' name='readLimits'/>
+ </message>
+ <message name='CardService_readLimitsResponse'>
+  <part element='ns1:readLimitsResponse' name='readLimitsResponse'/>
+ </message>
+ <message name='CardService_readSecureCode'>
+  <part element='ns1:readSecureCode' name='readSecureCode'/>
+ </message>
+ <message name='CardService_readSecureCodeResponse'>
+  <part element='ns1:readSecureCodeResponse' name='readSecureCodeResponse'/>
+ </message>
+ <message name='CardService_setCtls'>
+  <part element='ns1:setCtls' name='setCtls'/>
+ </message>
+ <message name='CardService_setCtlsResponse'>
+  <part element='ns1:setCtlsResponse' name='setCtlsResponse'/>
+ </message>
+ <message name='CardService_setLimits'>
+  <part element='ns1:setLimits' name='setLimits'/>
+ </message>
+ <message name='CardService_setLimitsResponse'>
+  <part element='ns1:setLimitsResponse' name='setLimitsResponse'/>
+ </message>
+ <message name='CardService_setMonthlyLimits'>
+  <part element='ns1:setMonthlyLimits' name='setMonthlyLimits'/>
+ </message>
+ <message name='CardService_setMonthlyLimitsResponse'>
+  <part element='ns1:setMonthlyLimitsResponse' name='setMonthlyLimitsResponse'/>
+ </message>
+ <message name='CardService_unblockCard'>
+  <part element='ns1:unblockCard' name='unblockCard'/>
+ </message>
+ <message name='CardService_unblockCardResponse'>
+  <part element='ns1:unblockCardResponse' name='unblockCardResponse'/>
+ </message>
+ <message name='CardService_unblockPin'>
+  <part element='ns1:unblockPin' name='unblockPin'/>
+ </message>
+ <message name='CardService_unblockPinResponse'>
+  <part element='ns1:unblockPinResponse' name='unblockPinResponse'/>
+ </message>
+ <message name='CardService_updateCardStatus'>
+  <part element='ns1:updateCardStatus' name='updateCardStatus'/>
+ </message>
+ <message name='CardService_updateCardStatusResponse'>
+  <part element='ns1:updateCardStatusResponse' name='updateCardStatusResponse'/>
+ </message>
+ <message name='CardService_updateIssuerQuestions'>
+  <part element='ns1:updateIssuerQuestions' name='updateIssuerQuestions'/>
+ </message>
+ <message name='CardService_updateIssuerQuestionsResponse'>
+  <part element='ns1:updateIssuerQuestionsResponse' name='updateIssuerQuestionsResponse'/>
+ </message>
+ <portType name='CardService'>
+  <operation name='activateCard' parameterOrder='activateCard'>
+   <input message='tns:CardService_activateCard'/>
+   <output message='tns:CardService_activateCardResponse'/>
+  </operation>
+  <operation name='blockCard' parameterOrder='blockCard'>
+   <input message='tns:CardService_blockCard'/>
+   <output message='tns:CardService_blockCardResponse'/>
+  </operation>
+  <operation name='cancelEnrollment' parameterOrder='cancelEnrollment'>
+   <input message='tns:CardService_cancelEnrollment'/>
+   <output message='tns:CardService_cancelEnrollmentResponse'/>
+  </operation>
+  <operation name='changeCardStatus' parameterOrder='changeCardStatus'>
+   <input message='tns:CardService_changeCardStatus'/>
+   <output message='tns:CardService_changeCardStatusResponse'/>
+  </operation>
+  <operation name='changePhoneNumber' parameterOrder='changePhoneNumber'>
+   <input message='tns:CardService_changePhoneNumber'/>
+   <output message='tns:CardService_changePhoneNumberResponse'/>
+  </operation>
+  <operation name='enrollCH' parameterOrder='enrollCH'>
+   <input message='tns:CardService_enrollCH'/>
+   <output message='tns:CardService_enrollCHResponse'/>
+  </operation>
+  <operation name='enrollCard' parameterOrder='enrollCard'>
+   <input message='tns:CardService_enrollCard'/>
+   <output message='tns:CardService_enrollCardResponse'/>
+  </operation>
+  <operation name='getBalance' parameterOrder='getBalance'>
+   <input message='tns:CardService_getBalance'/>
+   <output message='tns:CardService_getBalanceResponse'/>
+  </operation>
+  <operation name='getCardStatus' parameterOrder='getCardStatus'>
+   <input message='tns:CardService_getCardStatus'/>
+   <output message='tns:CardService_getCardStatusResponse'/>
+  </operation>
+  <operation name='manageCard' parameterOrder='manageCard'>
+   <input message='tns:CardService_manageCard'/>
+   <output message='tns:CardService_manageCardResponse'/>
+  </operation>
+  <operation name='orderPin' parameterOrder='orderPin'>
+   <input message='tns:CardService_orderPin'/>
+   <output message='tns:CardService_orderPinResponse'/>
+  </operation>
+  <operation name='readCardId' parameterOrder='readCardId'>
+   <input message='tns:CardService_readCardId'/>
+   <output message='tns:CardService_readCardIdResponse'/>
+  </operation>
+  <operation name='readCtls' parameterOrder='readCtls'>
+   <input message='tns:CardService_readCtls'/>
+   <output message='tns:CardService_readCtlsResponse'/>
+  </operation>
+  <operation name='readLimits' parameterOrder='readLimits'>
+   <input message='tns:CardService_readLimits'/>
+   <output message='tns:CardService_readLimitsResponse'/>
+  </operation>
+  <operation name='readSecureCode' parameterOrder='readSecureCode'>
+   <input message='tns:CardService_readSecureCode'/>
+   <output message='tns:CardService_readSecureCodeResponse'/>
+  </operation>
+  <operation name='setCtls' parameterOrder='setCtls'>
+   <input message='tns:CardService_setCtls'/>
+   <output message='tns:CardService_setCtlsResponse'/>
+  </operation>
+  <operation name='setLimits' parameterOrder='setLimits'>
+   <input message='tns:CardService_setLimits'/>
+   <output message='tns:CardService_setLimitsResponse'/>
+  </operation>
+  <operation name='setMonthlyLimits' parameterOrder='setMonthlyLimits'>
+   <input message='tns:CardService_setMonthlyLimits'/>
+   <output message='tns:CardService_setMonthlyLimitsResponse'/>
+  </operation>
+  <operation name='unblockCard' parameterOrder='unblockCard'>
+   <input message='tns:CardService_unblockCard'/>
+   <output message='tns:CardService_unblockCardResponse'/>
+  </operation>
+  <operation name='unblockPin' parameterOrder='unblockPin'>
+   <input message='tns:CardService_unblockPin'/>
+   <output message='tns:CardService_unblockPinResponse'/>
+  </operation>
+  <operation name='updateCardStatus' parameterOrder='updateCardStatus'>
+   <input message='tns:CardService_updateCardStatus'/>
+   <output message='tns:CardService_updateCardStatusResponse'/>
+  </operation>
+  <operation name='updateIssuerQuestions' parameterOrder='updateIssuerQuestions'>
+   <input message='tns:CardService_updateIssuerQuestions'/>
+   <output message='tns:CardService_updateIssuerQuestionsResponse'/>
+  </operation>
+ </portType>
+ <binding name='CardServiceBinding' type='tns:CardService'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='activateCard'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='blockCard'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='cancelEnrollment'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='changeCardStatus'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='changePhoneNumber'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='enrollCH'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='enrollCard'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getBalance'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getCardStatus'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='manageCard'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='orderPin'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='readCardId'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='readCtls'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='readLimits'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='readSecureCode'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='setCtls'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='setLimits'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='setMonthlyLimits'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='unblockCard'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='unblockPin'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='updateCardStatus'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='updateIssuerQuestions'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='CardService'>
+  <port binding='tns:CardServiceBinding' name='CardServicePort'>
+   <soap:address location='REPLACE_WITH_ACTUAL_URL'/>
+  </port>
+ </service>
+</definitions>

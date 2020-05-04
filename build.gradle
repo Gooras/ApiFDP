@@ -1,0 +1,95 @@
+/*war {
+    archiveName = archivesBaseName+'.war'
+
+
+
+    manifest = defaultManifestCeb('def3000/CEB Web')
+    rootSpec.exclude 'WEB-INF/applicationContext-security-cobrowsing.xml'
+}
+*/
+/*buildscript{
+    repositories{
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'no.nils:wsdl2java:0.10'
+    }
+}
+*/
+
+
+
+plugins {
+    id 'war'
+    id 'idea'
+    id 'java'
+    id("no.nils.wsdl2java") version "0.10"
+    id 'org.springframework.boot' version '2.0.4.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+wsdl2javaExt {
+    cxfVersion = "3.3.3"
+}
+
+//Generacja klienta z pliku WSDL
+
+wsdl2java {
+//    generatedWsdlDir = file("my-generated-sources")  // target directory for generated source coude
+//    wsdlDir = file("src/main/resources/myWsdlFiles") // define to support incremental build
+    wsdlsToGenerate = [   //  2d-array of wsdls and cxf-parameters
+//                          ['-client', 'src/main/resources/CardService.wsdl']
+//                                  ['-client', 'http://localhost:8088/mockCardServiceBinding?WSDL']
+                          ['-client', 'src/main/resources/CardService.wsdl']
+//                          ['-client', 'http://172.20.22.144:8088/mockCardServiceBinding?WSDL']
+//                          ['-client', 'http://10.17.202.214:8088/mockCardServiceBinding?WSDL']
+//                          ['-xjc','-b','bindingfile.xml','src/main/resources/wsdl/secondwsdl.wsdl']
+    ]
+
+}
+
+//apply plugin: 'no.nils.wsdl2java'
+//apply plugin: 'war'
+war {
+    enabled=true
+}
+
+group 'com.asseco.cm'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.cxf', name: 'cxf-spring-boot-starter-jaxrs', version: '3.3.3'
+    compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: '3.3.3'
+// https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-ws-security
+    compile group: 'org.apache.cxf', name: 'cxf-rt-ws-security', version: '3.3.3'
+// https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-features-logging
+    testCompile group: 'org.apache.cxf', name: 'cxf-rt-features-logging', version: '3.3.3'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.10.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.3'
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.10.2")
+    compile group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '5.0.3'
+
+    //compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.0.2'
+/*    <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2</artifactId>
+            <version>2.0.0</version>
+    </dependency>
+            <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+    <version>2.0.0</version>
+    </dependency>
+*/    
+}
+
