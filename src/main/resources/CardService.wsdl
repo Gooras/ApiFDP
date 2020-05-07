@@ -1142,7 +1142,7 @@
  </binding>
  <service name='CardService'>
   <port binding='tns:CardServiceBinding' name='CardServicePort'>
-   <soap:address location='http://10.17.202.214:8089/mockCardServiceBinding?WSDL'/>
+   <soap:address location='http://10.17.202.214:8088/mockCardServiceBinding?WSDL'/>
   </port>
  </service>
 </definitions>

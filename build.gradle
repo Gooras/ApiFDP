@@ -78,6 +78,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.10.3'
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.10.2")
     compile group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '5.0.3'
+// https://mvnrepository.com/artifact/org.projectlombok/lombok
+    providedCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 
     //compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.0.2'
 /*    <dependency>

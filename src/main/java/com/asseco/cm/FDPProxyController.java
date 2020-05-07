@@ -1,5 +1,7 @@
 package com.asseco.cm;
 
+import static com.asseco.cm.FDPApiTools.myLog;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,7 +35,7 @@ public class FDPProxyController {
   // Konstruktor - inicjalizacja serwisu FDP
   public FDPProxyController() {
     try {
-      System.out.println("FDPProxyController - konstruktor");
+      myLog("FDPProxyController - konstruktor");
 //      wsdl_url = new URL("CardService.wsdl");
 //      wsdl_url = new File("src/main/resources/CardService.wsdl").toURI().toURL();
 //      wsdl_url = new File("/WEB-INF/classes/CardService.wsdl").toURI().toURL();
@@ -41,7 +43,7 @@ public class FDPProxyController {
       wsdl_url = new File("C:/Users/Grzegorz.Gora/Desktop/REST/FDPapi/src/main/resources/CardService.wsdl").toURI().toURL();
 //          wsdl_url = new File(wsdlUrl).toURI().toURL();
 
-      System.out.println("URL: " + wsdl_url);
+      myLog("URL: " + wsdl_url);
     } catch (MalformedURLException e) {
       java.util.logging.Logger.getLogger(CardService_Service.class.getName())
           .log(java.util.logging.Level.INFO,
@@ -55,7 +57,7 @@ public class FDPProxyController {
 
     cardService = cService.getCardServicePort();
 
-    System.out.println("FDPProxyController - konstruktor wykonany, serwis utworzony" + cardService.toString());
+    myLog("FDPProxyController - konstruktor wykonany, serwis utworzony" + cardService.toString());
 
   }
 
@@ -64,55 +66,55 @@ public class FDPProxyController {
   @PostMapping(FDPRestURIConstants.ACC_MNGMT)
   @Consumes(MediaType.APPLICATION_JSON)
   public OperationResult accountManagement(@RequestBody AccountManagementRequest request) {
-    System.out.println("Metoda: " + FDPRestURIConstants.ACC_MNGMT);
+    myLog("Metoda: " + FDPRestURIConstants.ACC_MNGMT);
     OperationResult result = cardService.accountManagement(request);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("Odp: " + result.toString());
+    myLog("WdxResponseCode: " + result.getWdxResponseCode());
+    myLog("WdxMessageId: " + result.getWdxMessageId());
+    myLog("ResponseDate: " + result.getResponseDate());
+    myLog("ResponseTime: " + result.getResponseTime());
+    myLog("Odp: " + result.toString());
     return result;
   }
 
   @PostMapping(FDPRestURIConstants.CARD_ISS)
   @Consumes(MediaType.APPLICATION_JSON)
   public OperationResult cardIssuing(@RequestBody CardIssuingRequest request) {
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_ISS);
+    myLog("Metoda: " + FDPRestURIConstants.CARD_ISS);
     //OperationResult result = cardService.cardIssuing(request);
     CardIssuingResponse result = cardService.cardIssuing(request);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("ExpDate: " + result.getCardExpiryDate());
-    System.out.println("CardNumber: " + result.getCardNumber());
-    System.out.println("Odp: " + result.toString());
+    myLog("WdxResponseCode: " + result.getWdxResponseCode());
+    myLog("WdxMessageId: " + result.getWdxMessageId());
+    myLog("ResponseDate: " + result.getResponseDate());
+    myLog("ResponseTime: " + result.getResponseTime());
+    myLog("ExpDate: " + result.getCardExpiryDate());
+    myLog("CardNumber: " + result.getCardNumber());
+    myLog("Odp: " + result.toString());
     return result;
   }
 
   @PostMapping(FDPRestURIConstants.CARD_BIND)
   @Consumes(MediaType.APPLICATION_JSON)
   public OperationResult binding(@RequestBody CardAccountBindingRequest request) {
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_BIND);
+    myLog("Metoda: " + FDPRestURIConstants.CARD_BIND);
     OperationResult result = cardService.cardAccountBinding(request);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-   System.out.println("Odp: " + result.toString());
+    myLog("WdxResponseCode: " + result.getWdxResponseCode());
+    myLog("WdxMessageId: " + result.getWdxMessageId());
+    myLog("ResponseDate: " + result.getResponseDate());
+    myLog("ResponseTime: " + result.getResponseTime());
+   myLog("Odp: " + result.toString());
     return result;
   }
 
   @PostMapping(FDPRestURIConstants.CARD_STATUS)
   @Consumes(MediaType.APPLICATION_JSON)
   public OperationResult cardStatus(@RequestBody CardStatusChangeRequest request) {
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_STATUS);
+    myLog("Metoda: " + FDPRestURIConstants.CARD_STATUS);
     OperationResult result = cardService.changeCardStatus(request);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("Odp: " + result.toString());
+    myLog("WdxResponseCode: " + result.getWdxResponseCode());
+    myLog("WdxMessageId: " + result.getWdxMessageId());
+    myLog("ResponseDate: " + result.getResponseDate());
+    myLog("ResponseTime: " + result.getResponseTime());
+    myLog("Odp: " + result.toString());
     return result;
   }
 

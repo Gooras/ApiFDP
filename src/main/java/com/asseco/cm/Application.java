@@ -26,26 +26,13 @@ public class Application extends SpringBootServletInitializer {
     return application.sources(Application.class);
   }
 
-  @Autowired
-  Config conf;
+//  @Autowired
+//  Config conf;
 
-/*  @Bean @Lazy
-  public CardService cardService() throws MalformedURLException {
-    //URL url = new URL("http://localhost:8088/mockCardServiceBinding?wsdl");
-    URL url = new URL(conf.getWsAddress());
-    System.out.println("Bean "+url);
-
-    CardService_Service service = new CardService_Service(url);
-
-    CardService cardService = service.getCardServicePort();
-
-    return service.getCardServicePort();
-  }
-*/
 
   public static void main(String[] args) {
-    System.out.println("Main");
+    //System.out.println("Main");
     SpringApplication.run(Application.class, args);
-    System.out.println("Po main");
+    //System.out.println("Po main");
   }
 }

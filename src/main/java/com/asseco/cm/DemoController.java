@@ -3,10 +3,14 @@ package com.asseco.cm;
 import com.asseco.cm.callback.ClientKeyStorePasswordCallback;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +28,13 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 //import com.asseco.cm.debug.WSS4JOutInterceptor;
 import org.apache.wss4j.dom.WSConstants;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
@@ -83,7 +89,7 @@ public class DemoController {
   @Value("${ws.fdp.address.127}")
   public String wsAddress127;
 
-//  @Autowired
+  //  @Autowired
   @Value("${ws.fdp.address.name}")
   public static String wsAddressName; // = new Config().getWsAddress();
   //Koniec parametry
@@ -98,19 +104,42 @@ public class DemoController {
   Config conf;
 
   CardService_Service cService;
+  @Autowired
   CardService cardService;
+  @Autowired
   Client client;
-  Endpoint endpoint;
-
-//  @Autowired
-//  CardService cs;
 
   static {
     System.out.println("Static "+wsAddressName);
     //System.out.println("Autowired: " + conf.getWsAddress());
   }
 
-  public DemoController() {
+  @Bean
+  public CardService cardService() throws MalformedURLException {
+    //URL url = new URL("http://localhost:8088/mockCardServiceBinding?wsdl");
+    URL url = new URL(conf.getWsAddress());
+    url = conf.getWsdl();
+    System.out.println("Bean CardService "+url);
+
+    CardService_Service service = new CardService_Service(url);
+
+    CardService cardService = service.getCardServicePort();
+
+    System.out.println("porty: "+service.getPorts().toString());
+
+    return service.getCardServicePort();
+  }
+
+  @Bean
+  public Client client() {
+      Client cli = (Client) cardService;
+      System.out.println("Bean Client "+cli.toString());
+      //TODO - interceptory do logowania, interceptory do WSS jak włączony parametr
+      return cli;
+  }
+
+  //wyłączony konstruktor
+  public void DemoControllerTest() {
     try {
       System.out.println("DemoController - konstruktor");
       System.out.println("Url1: " + wsdlUrl);
@@ -138,20 +167,20 @@ public class DemoController {
     }
 //    CardService_Service cService = new CardService_Service(wsdl_url, //WSDL_LOCATION,
 
-    //wsdl_url = ClassLoader.getSystemResource("CardServiceWSSMock.wsdl");
-    //System.out.println("wsdl_url "+wsdl_url);
+    wsdl_url = ClassLoader.getSystemResource("CardServiceWSSMock.wsdl");
+    System.out.println("wsdl_url "+wsdl_url);
 
     System.out.println("cService");
-    //inicjowanie konkretnym, innym niż domyślny plikiem wsdl
+    //inicjowanie konkretnym, innym niĹĽ domyĹ›lny plikiem wsdl
     cService = new CardService_Service(wsdl_url, //WSDL_LOCATION,
         new QName("http://www.firstdata.pl/wdx/business/card/v5/", "CardService"));
-    //domyślny konstruktor - jest domyślna lokalizacja pliku:
+    //domyĹ›lny konstruktor - jest domyĹ›lna lokalizacja pliku:
     //                  wsdlLocation = "file:src/main/resources/CardService.wsdl",
     //cService = new CardService_Service();
 
 //    CardService cardService = cService.getCardServicePort();
     System.out.println("cardService");
-    cardService = cService.getCardServicePort();
+    //cardService = cService.getCardServicePort();
 
     System.out.println("DemoController - interceptory Start");
     client = (Client) cardService;
@@ -196,9 +225,9 @@ public class DemoController {
     outgoingProps
         .put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeyStorePasswordCallback.class.getName());
 
-//to działa z FDP
+//to dziaĹ‚a z FDP
 //        outgoingProps.put(WSHandlerConstants.USER, "nsb");
-//to działa z mockiem
+//to dziaĹ‚a z mockiem
     outgoingProps.put(WSHandlerConstants.USER, "fdp");
     outgoingProps.put(WSHandlerConstants.ENCRYPTION_USER, "fdp");
     outgoingProps.put(WSHandlerConstants.SIGNATURE_PARTS,
@@ -211,14 +240,53 @@ public class DemoController {
     WSS4JOutInterceptor wssOutgoing = new WSS4JOutInterceptor(outgoingProps);
     System.out.println("DemoController - interceptory do logowania - Out");
     PrintWriter writerOut = null;
+    PrintWriter writerOut2 = null;
+    Date date = Calendar.getInstance().getTime();
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+    String strDate = dateFormat.format(date);
+    String fileName = "FDPProxyOut_"+strDate+".log";
     try {
-      writerOut = new PrintWriter(new File("src/main/resources/FDPProxyOut.log"));
+      //writerOut = new PrintWriter(new File("src/main/resources/FDPProxyOut.log"));
+      File file = new File("/logs/"+fileName);
+      System.out.println("Path1: "+file.getAbsolutePath());
+      System.out.println("Writer: "+file.getCanonicalPath());
+      writerOut = new PrintWriter(file);
+      file = new File(fileName);
+      System.out.println("Path2: "+file.getAbsolutePath());
+      System.out.println("Writer: "+file.getCanonicalPath());
+      writerOut = new PrintWriter(file);
+      file = new File("../log/"+fileName);
+      System.out.println("Path3: "+file.getAbsolutePath());
+      System.out.println("Writer: "+file.getCanonicalPath());
+      writerOut2 = new PrintWriter(file);
+      file = new File("./log/"+fileName);
+      System.out.println("Path4: "+file.getAbsolutePath());
+      System.out.println("Writer: "+file.getCanonicalPath());
+      writerOut = new PrintWriter(file);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    client.getOutInterceptors().add(new LoggingOutInterceptor(writerOut));
+    System.out.println("Szyfrowanie");
     client.getOutInterceptors().add(wssOutgoing);
-    //PrintWriter writer = new PrintWriter()
+    //wssOutgoing.setPhase(Phase.PRE_STREAM_ENDING);
+    System.out.println("Faza: "+wssOutgoing.getPhase());
+    //LoggingOutInterceptor logOut = new LoggingOutInterceptor(writerOut);
+    LoggingOutInterceptor logOut = new LoggingOutInterceptor(Phase.POST_PROTOCOL);
+    //LoggingOutInterceptor logOut = new LoggingOutInterceptor();
+    //logOut.setPrintWriter(writerOut);
+    //logOut.addBefore(WSS4JOutInterceptor.class.getName());
+    System.out.println("Na pliku przed szyfrowaniem");
+    client.getOutInterceptors().add(logOut);
+    logOut.setPrettyLogging(true);
+    System.out.println("Faza log: "+logOut.getPhase());
+//    System.out.println("Po szyfrowaniu");
+//    client.getOutInterceptors().add(new LoggingOutInterceptor(writerOut2));
+    //na konsolę
+//    System.out.println("Na konsolę - domyślnie przed szyfrowaniem");
+//    client.getOutInterceptors().add(new LoggingOutInterceptor());
+   //PrintWriter writer = new PrintWriter()
     //client.getOutInterceptors().add(new LoggingOutInterceptor());
     //client.getOutInterceptors().remove(wssOutgoing);
 
@@ -357,10 +425,10 @@ public class DemoController {
     req.setAddressLine1("Addr1");
     req.setAddressLine2("Addr2");
     req.setAddressLine3("Addr3");
-    req.setCity("Rzeszów");
+    req.setCity("RzeszĂłw");
     req.setCountryCode("PL");
     req.setFirstName("Grzegorz");
-    req.setLastName("Góra");
+    req.setLastName("GĂłra");
     req.setMiddleName("MiddleName");
     req.setPostCode("35-000");
     req.setTemplateId("TemplateId");
@@ -397,7 +465,7 @@ public class DemoController {
   }
 
   @RequestMapping(value = "/getIssuingRequest", produces = MediaType.APPLICATION_JSON_VALUE)
- public CardIssuingRequest getCardIssuingRequest() throws DatatypeConfigurationException {
+  public CardIssuingRequest getCardIssuingRequest() throws DatatypeConfigurationException {
     CardIssuingRequest req = null;
     try {
       req = getCardIssuing();
@@ -423,11 +491,11 @@ public class DemoController {
     req.setBankAccountId("ID1234");
     req.setBankOwnerId("OwnerID1234");
     req.setBranch("Branch");
-    req.setCity("Rzeszów");
+    req.setCity("RzeszĂłw");
     req.setCountryCode("PL");
     req.setCurrencyCode("PLN");
     req.setFirstName("Grzegorz");
-    req.setLastName("Góra");
+    req.setLastName("GĂłra");
     req.setLK("Co to?");
     req.setMiddleName("MiddleName");
     req.setPostCode("35-000");
@@ -499,10 +567,10 @@ public class DemoController {
 
   @GetMapping(EmpRestURIConstants.CREATE_EMP+"/{id}")
   @Consumes(MediaType.APPLICATION_XML_VALUE)
-public String getTest(@PathVariable String id) {
+  public String getTest(@PathVariable String id) {
 //    System.out.println(
-//        "DemoController - serwis Autowired dostępny" + cs.toString());
-  System.out.println("Url2.1: " + wsdlUrl);
+//        "DemoController - serwis Autowired dostÄ™pny" + cs.toString());
+    System.out.println("Url2.1: " + wsdlUrl);
     System.out.println("GetTest 0");
     System.out.println("Adres2: " + wsAddressName);
     //System.out.println("Adres3: " + new Config().getWsAddress());
@@ -513,28 +581,28 @@ public String getTest(@PathVariable String id) {
 
     ReadCrtaRequest crtaRequest = new ReadCrtaRequest();
     System.out.println("GetTest 1");
-  crtaRequest.setCardNumber(id);
+    crtaRequest.setCardNumber(id);
     System.out.println("GetTest 2 "+ id);
     CrtaResponse crtaResponse = cardService.readCrta(crtaRequest);
     System.out.println("GetTest 3");
-  System.out.println("Odp: " + crtaResponse.getWdxResponseCode());
-  System.out.println("Odp: " + crtaResponse.getWdxMessageId());
-  System.out.println("Odp: " + crtaResponse.getResponseDate());
-  System.out.println("Odp: " + crtaResponse.toString());
+    System.out.println("Odp: " + crtaResponse.getWdxResponseCode());
+    System.out.println("Odp: " + crtaResponse.getWdxMessageId());
+    System.out.println("Odp: " + crtaResponse.getResponseDate());
+    System.out.println("Odp: " + crtaResponse.toString());
     return "getTest";
-}
-    @RequestMapping("/test")
+  }
+  @RequestMapping("/test")
   public String test(@RequestParam("cardNo") String cardNumber, @RequestParam("testKom") String message) {
     String wynik = "Wykonanie ok. ";
 
     System.out.println("Przekazane parametry: "+cardNumber+" "+message);
 
-      CardActivationRequest activateCard = new CardActivationRequest();
-      activateCard.setCardNumber(cardNumber);
-      OperationResult result = cardService.activateCard(activateCard);
-      //getDate to prywatna metoda - do implementacji później
-      //activateCard.setExpiryDate(getDate(new Date()));
-      System.out.println("Odebrana odp: "+ result.getWdxMessageId());
+    CardActivationRequest activateCard = new CardActivationRequest();
+    activateCard.setCardNumber(cardNumber);
+    OperationResult result = cardService.activateCard(activateCard);
+    //getDate to prywatna metoda - do implementacji pĂłĹşniej
+    //activateCard.setExpiryDate(getDate(new Date()));
+    System.out.println("Odebrana odp: "+ result.getWdxMessageId());
 
     if (Integer.valueOf(cardNumber) == 1)
     {
@@ -543,26 +611,26 @@ public String getTest(@PathVariable String id) {
     else
       wynik = wynik + "Inny testowy wynik "+cardNumber+ " "+message;
 
-      switch (cardNumber) {
-        case "1":
-          wynik = wynik + "\n" + wsAddress;
-          break;
-        case "2":
-          wynik = wynik + "\n" + wsAddressLocal;
-          break;
-        case "3":
-          wynik = wynik + "\n" + wsAddress127;
-          break;
-        case "4":
-          wynik = wynik + "\n" + wsAddressName;
-          break;
-      }
+    switch (cardNumber) {
+      case "1":
+        wynik = wynik + "\n" + wsAddress;
+        break;
+      case "2":
+        wynik = wynik + "\n" + wsAddressLocal;
+        break;
+      case "3":
+        wynik = wynik + "\n" + wsAddress127;
+        break;
+      case "4":
+        wynik = wynik + "\n" + wsAddressName;
+        break;
+    }
 
-      return wynik;
+    return wynik;
 
   }
 
-//  @RequestMapping(value = "/limits/read", produces = MediaType.APPLICATION_JSON_VALUE)
+  //  @RequestMapping(value = "/limits/read", produces = MediaType.APPLICATION_JSON_VALUE)
   @RequestMapping("/limits/read")
   @Produces(MediaType.APPLICATION_JSON_VALUE)
   public ReadLimitsResponse readLimits(@RequestParam("cardNo") String cardNumber)
@@ -575,7 +643,7 @@ public String getTest(@PathVariable String id) {
     readLimit.setCardNumber(cardNumber);
     OperationResult result = cardService.readLimits(readLimit);
     ReadLimitsResponse response = cardService.readLimits(readLimit);
-    //getDate to prywatna metoda - do implementacji później
+    //getDate to prywatna metoda - do implementacji pĂłĹşniej
     //activateCard.setExpiryDate(getDate(new Date()));
     Date data = FDPApiTools.getDate(result.getResponseDate());
     System.out.println("Odebrana odp: "+ result.getWdxMessageId());
@@ -606,7 +674,7 @@ public String getTest(@PathVariable String id) {
 
   }
 
-//  @RequestMapping(value = "/xml/limits/read", produces = MediaType.APPLICATION_XML_VALUE)
+  //  @RequestMapping(value = "/xml/limits/read", produces = MediaType.APPLICATION_XML_VALUE)
   @RequestMapping(value = "/xml/limits/read")
   @Produces(MediaType.APPLICATION_JSON_VALUE)
   public ReadLimitsResponse readXMLLimits(@RequestParam("cardNo") String cardNumber)
@@ -619,7 +687,7 @@ public String getTest(@PathVariable String id) {
     readLimit.setCardNumber(cardNumber);
     OperationResult result = cardService.readLimits(readLimit);
     ReadLimitsResponse response = cardService.readLimits(readLimit);
-    //getDate to prywatna metoda - do implementacji później
+    //getDate to prywatna metoda - do implementacji pĂłĹşniej
     //activateCard.setExpiryDate(getDate(new Date()));
     Date data = FDPApiTools.getDate(result.getResponseDate());
     System.out.println("Odebrana odp: "+ result.getWdxMessageId());
@@ -668,7 +736,7 @@ public String getTest(@PathVariable String id) {
     setLimit.setLimitsData(limitsData);
     System.out.println(wynik + "Serwis: "+cardService.toString());
     OperationResult result = cardService.setLimits(setLimit);
-    //getDate to prywatna metoda - do implementacji później
+    //getDate to prywatna metoda - do implementacji pĂłĹşniej
     //activateCard.setExpiryDate(getDate(new Date()));
     Date data = FDPApiTools.getDate(result.getResponseDate());
     System.out.println("Odebrana odp: "+ result.getWdxMessageId());
