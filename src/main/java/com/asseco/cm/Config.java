@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
+  //do testu zewn. properties
+  //@Value("${gg.test}")
+  public String ggTest;
+
   @Value("${app.version}")
   public String appVersion;
 
