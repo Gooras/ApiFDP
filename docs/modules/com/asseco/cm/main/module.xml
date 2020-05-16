@@ -3,7 +3,5 @@
   <resources>
     <resource-root path="."/>
   </resources>
-  <dependencies>
-    <module name="ch.qos.logback"/>
-  </dependencies>
+
 </module>

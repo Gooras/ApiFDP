@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-deployment-structure>
   <deployment>
+    <dependencies>
+      <module name="com.asseco.cm.logging" export="true"/>
+      <module name="com.asseco.cm" export="true"/>
+    </dependencies>
     <exclusions>
       <module name="org.apache.commons.logging" />
       <module name="org.apache.log4j" />
