@@ -2,9 +2,7 @@ package com.asseco.cm;
 
 import javax.ws.rs.ApplicationPath;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,13 +10,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @ApplicationPath("/api")
+@Slf4j
 public class Application extends SpringBootServletInitializer {
-
-  private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    logger.debug("TEST MISIA");
     return application.sources(Application.class);
   }
 
@@ -28,11 +24,11 @@ public class Application extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
     //System.out.println("Main");
-    logger.debug("(Main) Start aplikacji - loger: "+logger.getClass().getName());
-    logger.info("(Main) Start aplikacji");
-    logger.error("(Main) Start aplikacji");
-    System.out.println(logger.getClass().getName());
-    System.out.println(logger.isDebugEnabled());
+    log.debug("(Main) Start aplikacji - loger: "+log.getClass().getName());
+    log.info("(Main) Start aplikacji");
+    log.error("(Main) Start aplikacji");
+    System.out.println(log.getClass().getName());
+    System.out.println(log.isDebugEnabled());
 
     SpringApplication.run(Application.class, args);
     //System.out.println("Po main");
