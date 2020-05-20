@@ -2,6 +2,12 @@ package com.asseco.cm;
 
 import static com.asseco.cm.FDPApiTools.myLog;
 
+import com.asseco.cm.fdp.client.CmAccountManagementRequest;
+import com.asseco.cm.fdp.client.CmCardAccountBindingRequest;
+import com.asseco.cm.fdp.client.CmCardIssuingRequest;
+import com.asseco.cm.fdp.client.CmCardIssuingResponse;
+import com.asseco.cm.fdp.client.CmCardStatusUpdateRequest;
+import com.asseco.cm.fdp.client.CmOperationResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,11 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.firstdata.wdx.business.card.AccountManagementRequest;
 import pl.firstdata.wdx.business.card.CardAccountBindingRequest;
-import pl.firstdata.wdx.business.card.CardIssuingRequest;
 import pl.firstdata.wdx.business.card.CardIssuingResponse;
-import pl.firstdata.wdx.business.card.CardStatusChangeRequest;
+import pl.firstdata.wdx.business.card.CardStatusUpdateRequest;
 import pl.firstdata.wdx.business.card.v5.CardService;
 import pl.firstdata.wdx.business.card.v5.CardService_Service;
 import pl.firstdata.wdx.business.card.v5.OperationResult;
@@ -42,6 +46,10 @@ public class FDPProxyXMLController {
 
   @Autowired
   Config conf;
+
+  @Autowired
+  ClientConfig clientConf;
+
   @Autowired
   CardService cardService;
   @Autowired
@@ -49,21 +57,27 @@ public class FDPProxyXMLController {
 
   public static URL wsdl_url;
 
+  private String nl = System.lineSeparator();
+
   CardService_Service cService;
 
   @Bean
   public CardService cardService() throws MalformedURLException {
-    System.out.println(log.getClass().getName());
-    System.out.println(log.isDebugEnabled());
 
     //TODO: zgłosić wyjątek, gdy url nieprawidłowy
-    URL url = new URL(conf.getWsAddress());
+    URL url = new URL(clientConf.getConfFdpWsdlUrl());
+    //URL url = new URL(conf.getWsAddress());
     //url = conf.getWsdl();
-    System.out.println("Bean CardService "+url);
     log.debug("(Bean) (CardService) Serwis utworzony "+url);
 
     //TODO: zgłosić wyjątek, gdy nie uda się stworzyć serwisu? Da się to jakoś sprawdzić?
     CardService_Service service = new CardService_Service(url);
+    log.debug("(Bean) (CardService) Serwis utworzony "+url);
+    if (service==null) {
+      log.error("(Bean) (CardService) Błąd tworzenia serwisu "+url);
+    } else
+      log.debug("(Bean) (CardService) Serwis utworzony "+url);
+
     CardService cardService = service.getCardServicePort();
 
     return service.getCardServicePort();
@@ -71,21 +85,17 @@ public class FDPProxyXMLController {
 
   @Bean
   public Client client() {
-    System.out.println(log.getClass().getName());
-    System.out.println(log.isDebugEnabled());
-
     Client cli = (Client) cardService;
-    System.out.println("Bean Client "+cli.toString());
     log.debug("(Bean) Klient utworzony");
     //TODO - interceptory do logowania, interceptory do WSS jak włączony parametr
     addInterceptors(cli);
-    log.debug("(Bean) Interceptory włączone");
+    log.debug("(Bean) Klient - interceptory włączone");
     return cli;
   }
 
   private void addInterceptors(Client cli) {
 
-    if (false) {
+    if (clientConf.getConfWSSEnabled()) {
 
     if (conf.getLoggingInEnabled()) {
       myLog("DemoController - interceptory do logowania - In");
@@ -112,19 +122,19 @@ public class FDPProxyXMLController {
         String fileName = conf.getLoggingOutFileName()+"_"+strDate+".log";
         try {
           File file = new File("/logs/"+fileName);
-          System.out.println("Path1: "+file.getAbsolutePath());
-          System.out.println("Writer: "+file.getCanonicalPath());
+          log.debug("Path1: "+file.getAbsolutePath());
+          log.debug("Writer: "+file.getCanonicalPath());
           writerOut = new PrintWriter(file);
           file = new File(fileName);
-          System.out.println("Path2: "+file.getAbsolutePath());
-          System.out.println("Writer: "+file.getCanonicalPath());
+          log.debug("Path2: "+file.getAbsolutePath());
+          log.debug("Writer: "+file.getCanonicalPath());
           writerOut = new PrintWriter(file);
           file = new File("../log/"+fileName);
-          System.out.println("Path3: "+file.getAbsolutePath());
-          System.out.println("Writer: "+file.getCanonicalPath());
+          log.debug("Path3: "+file.getAbsolutePath());
+          log.debug("Writer: "+file.getCanonicalPath());
           file = new File("./log/"+fileName);
-          System.out.println("Path4: "+file.getAbsolutePath());
-          System.out.println("Writer: "+file.getCanonicalPath());
+          log.debug("Path4: "+file.getAbsolutePath());
+          log.debug("Writer: "+file.getCanonicalPath());
           writerOut = new PrintWriter(file);
 
 //          writerOut = new PrintWriter(new File("src/main/resources/FDPProxyOut.log"));
@@ -179,87 +189,53 @@ public class FDPProxyXMLController {
 //Właściwe metody REST
 
   @RequestMapping(value = FDPRestURIConstants.ACC_MNGMT, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-  public OperationResult accountManagement(@RequestBody AccountManagementRequest request) {
+//  public OperationResult accountManagement(@RequestBody AccountManagementRequest request) {
+  public OperationResult accountManagement(@RequestBody CmAccountManagementRequest request) {
+
     log.debug("Metoda: " + FDPRestURIConstants.ACC_MNGMT);
-    System.out.println("Metoda: " + FDPRestURIConstants.ACC_MNGMT);
-    log.debug("Request: " + request);
+    log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
     OperationResult result = cardService.accountManagement(request);
-    log.debug("Response: " + result);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("Odp: " + result.toString());
+    log.debug("Response: " + nl + FDPApiTools.jaxbObjectToXML(result));
     return result;
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_ISS, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-  public OperationResult cardIssuing(@RequestBody CardIssuingRequest request) {
+//  public OperationResult cardIssuing(@RequestBody CardIssuingRequest request) {
+  public OperationResult cardIssuing(@RequestBody CmCardIssuingRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_ISS);
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_ISS);
-    //OperationResult result = cardService.cardIssuing(request);
-
-    log.debug("Request: " + request);
-    log.debug("Request (XMl): " + FDPApiTools.jaxbObjectToXML(request));
-    System.out.println("Request (XMl): " + FDPApiTools.jaxbObjectToXML(request));
+    log.debug("Request (XML): " + nl + FDPApiTools.jaxbObjectToXML(request));
     CardIssuingResponse result = cardService.cardIssuing(request);
-    log.debug("Response: " + result);
-    log.debug("Response (XMl): " + FDPApiTools.jaxbObjectToXML(result));
-    System.out.println("Response (XMl): " + FDPApiTools.jaxbObjectToXML(result));
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("ExpDate: " + result.getCardExpiryDate());
-    System.out.println("CardNumber: " + result.getCardNumber());
-    System.out.println("Odp: " + result.toString());
+    log.debug("Response (XML): " + nl + FDPApiTools.jaxbObjectToXML(result));
     return result;
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_BIND, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-  public OperationResult binding(@RequestBody CardAccountBindingRequest request) {
+//  public OperationResult binding(@RequestBody CardAccountBindingRequest request) {
+  public OperationResult binding(@RequestBody CmCardAccountBindingRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_BIND);
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_BIND);
-    log.debug("Request: " + request);
+    log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
     OperationResult result = cardService.cardAccountBinding(request);
-    log.debug("Response: " + result);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("Odp: " + result.toString());
+    log.debug("Response: " + nl + FDPApiTools.jaxbObjectToXML(result));
     return result;
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_STATUS, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-  public OperationResult cardStatus(@RequestBody CardStatusChangeRequest request) {
+//  public OperationResult cardStatus(@RequestBody CardStatusUpdateRequest request) {
+  public OperationResult cardStatus(@RequestBody CmCardStatusUpdateRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_STATUS);
-    System.out.println("Metoda: " + FDPRestURIConstants.CARD_STATUS);
-    log.debug("Request: " + request);
-    OperationResult result = cardService.changeCardStatus(request);
-    log.debug("Response: " + result);
-    System.out.println("WdxResponseCode: " + result.getWdxResponseCode());
-    System.out.println("WdxMessageId: " + result.getWdxMessageId());
-    System.out.println("ResponseDate: " + result.getResponseDate());
-    System.out.println("ResponseTime: " + result.getResponseTime());
-    System.out.println("Odp: " + result.toString());
+    log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
+    OperationResult result = cardService.updateCardStatus(request);
+    log.debug("Response: " + nl + FDPApiTools.jaxbObjectToXML(result));
     return result;
   }
 
   @RequestMapping(value = FDPRestURIConstants.VERSION, consumes = MediaType.ALL_VALUE, method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
   public String getVersion() {
     log.debug("Metoda: " + FDPRestURIConstants.VERSION+" ver: "+conf.getAppVersion());
-    System.out.println("Metoda: " + FDPRestURIConstants.VERSION);
-    System.out.println("Wersja: "+ conf.getAppVersion());
 
-    System.out.println(log.getClass().getName());
-    System.out.println(log.isDebugEnabled());
-
-    log.debug("Version: "+conf.getAppVersion());
-    log.info("Version: "+conf.getAppVersion());
-    log.error("Version: "+conf.getAppVersion());
-
-    return "ver: "+conf.getAppVersion() + " logger: "+ log.getClass().getName()+" conf: "+conf.getGgTest();
+    return "ver: "+conf.getAppVersion()
+        + nl + "<br/>logger: "+ log.getClass().getName()
+        + nl + "<br/>conf: "+clientConf.getConfFilename();
   }
 
 }

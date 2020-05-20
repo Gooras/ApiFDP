@@ -1,4 +1,4 @@
-package com.asseco.cm;
+package com.asseco.cm.interceptors;
 
 
 import java.util.concurrent.TimeUnit;

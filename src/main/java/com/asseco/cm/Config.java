@@ -1,30 +1,22 @@
 package com.asseco.cm;
 
 import java.net.URL;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Slf4j
-@Setter
-@Getter
+@Data
 @Configuration
-@PropertySource(value = "classpath:FDPproxy.properties", ignoreResourceNotFound = true)
 public class Config {
-
-  //do testu zewn. properties
-  @Value("${gg.test:domyslna wartosc gg.test}")
-  public String ggTest;
 
   @Value("${app.version:x.y.z}")
   public String appVersion;
 
+  //testowe
   @Value("${ws.fdp.address}")
   public String wsAddress;
-//  private static String wsAddress;
 
   @Value("${wsdl.url}")
   public String wsdlUrl;
@@ -79,11 +71,7 @@ public class Config {
     }
   }
   public Config () {
-    System.out.println("Config!");
     log.debug("Config created!");
-    //System.out.println("Adress: "+wsAddress);
-    //this.setWsAddress("Testowy IP");
-    //System.out.println("Adress: "+wsAddress);
   }
 
 }

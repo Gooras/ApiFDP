@@ -1,4 +1,4 @@
-package com.asseco.cm;
+package com.asseco.cm.demo;
 
 public class EmpRestURIConstants {
 

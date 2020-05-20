@@ -144,8 +144,6 @@
      <xs:element minOccurs='0' name='embossedName' type='xs:string'/>
      <xs:element minOccurs='0' name='embossedCompanyName' type='xs:string'/>
      <xs:element minOccurs='0' name='issueType' type='xs:string'/>
-     <xs:element minOccurs='0' name='express' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='courier' type='xs:boolean'/>
      <xs:element minOccurs='0' name='firstName' type='xs:string'/>
      <xs:element minOccurs='0' name='middleName' type='xs:string'/>
      <xs:element minOccurs='0' name='lastName' type='xs:string'/>

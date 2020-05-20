@@ -42,9 +42,11 @@ wsdl2java {
     wsdlsToGenerate = [   //  2d-array of wsdls and cxf-parameters
 //                          ['-client', 'src/main/resources/CardService.wsdl']
 //                                  ['-client', 'http://localhost:8088/mockCardServiceBinding?WSDL']
-                          ['-client', 'src/main/resources/CardService.wsdl']
+//                          ['-client', '-xjc-Xequals', '-xjc-XhashCode', '-xjc-XtoString', 'src/main/resources/CardService.wsdl']
+//                          ['-client', 'src/main/resources/CardService.wsdl']
 //                          ['-client', 'http://172.20.22.144:8088/mockCardServiceBinding?WSDL']
-//                          ['-client', 'http://10.17.202.214:8088/mockCardServiceBinding?WSDL']
+//                          ['-client', '-xjc-Xequals', '-xjc-XhashCode', '-xjc-XtoString','http://10.17.202.214:8088/mockCardServiceBinding?WSDL']
+                          ['-client', 'http://10.17.202.214:8088/mockCardServiceBinding?WSDL']
 //                          ['-xjc','-b','bindingfile.xml','src/main/resources/wsdl/secondwsdl.wsdl']
     ]
 
@@ -63,9 +65,13 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
+//    implementation 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.12.0'
+//    wsdl2java 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.12.0'
+//    wsdl2java 'org.jvnet.jaxb2_commons:jaxb2-basics:0.12.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.apache.cxf', name: 'cxf-spring-boot-starter-jaxrs', version: '3.3.3'
     compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: '3.3.3'

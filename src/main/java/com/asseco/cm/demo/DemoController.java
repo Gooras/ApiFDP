@@ -1,5 +1,7 @@
-package com.asseco.cm;
+package com.asseco.cm.demo;
 
+import com.asseco.cm.Config;
+import com.asseco.cm.FDPApiTools;
 import com.asseco.cm.callback.ClientKeyStorePasswordCallback;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,25 +11,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 //import javax.ws.rs.core.MediaType;
-import javax.xml.datatype.XMLGregorianCalendar;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Client;
 
 
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
@@ -38,7 +34,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -47,20 +42,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.firstdata.wdx.business.card.AccountManagementRequest;
-import pl.firstdata.wdx.business.card.BlockStatusCardRequest;
 import pl.firstdata.wdx.business.card.CardAccountBindingRequest;
 import pl.firstdata.wdx.business.card.CardActivationRequest;
 import pl.firstdata.wdx.business.card.CardIssuingRequest;
-import pl.firstdata.wdx.business.card.CardIssuingResponse;
-import pl.firstdata.wdx.business.card.CardStatus;
 import pl.firstdata.wdx.business.card.CardStatusChangeRequest;
 import pl.firstdata.wdx.business.card.CrtaResponse;
 import pl.firstdata.wdx.business.card.LimitsData;
-import pl.firstdata.wdx.business.card.ObjectFactory;
 import pl.firstdata.wdx.business.card.ReadCrtaRequest;
 import pl.firstdata.wdx.business.card.ReadLimitsRequest;
 import pl.firstdata.wdx.business.card.ReadLimitsResponse;
@@ -68,7 +58,6 @@ import pl.firstdata.wdx.business.card.SetLimitsRequest;
 import pl.firstdata.wdx.business.card.v5.CardService;
 import pl.firstdata.wdx.business.card.v5.CardService_Service;
 import pl.firstdata.wdx.business.card.v5.OperationResult;
-import com.asseco.cm.EmpRestURIConstants;
 
 @RestController
 @Lazy

@@ -18,19 +18,10 @@ public class Application extends SpringBootServletInitializer {
     return application.sources(Application.class);
   }
 
-//  @Autowired
-//  Config conf;
-
-
   public static void main(String[] args) {
-    //System.out.println("Main");
     log.debug("(Main) Start aplikacji - loger: "+log.getClass().getName());
-    log.info("(Main) Start aplikacji");
-    log.error("(Main) Start aplikacji");
-    System.out.println(log.getClass().getName());
-    System.out.println(log.isDebugEnabled());
-
+    //Test polskich znaków logera
+    //log.debug("za\u017c\u00f3\u0142\u0107 g\u0119\u015bl\u0105 ka\u017a\u0144");
     SpringApplication.run(Application.class, args);
-    //System.out.println("Po main");
   }
 }

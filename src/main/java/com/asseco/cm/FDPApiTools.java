@@ -43,11 +43,12 @@ public class FDPApiTools {
     {
       //Create JAXB Context
       JAXBContext jaxbContext = JAXBContext.newInstance(obj.getClass());
-      System.out.println("JaxBContext: " + jaxbContext.toString());
+      //System.out.println("JaxBContext: " + jaxbContext.toString());
 
       //Create Marshaller
       Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-      System.out.println("Marshaller: " + jaxbMarshaller.toString());
+      jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+      //System.out.println("Marshaller: " + jaxbMarshaller.toString());
 
       //Required formatting??
       jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -60,7 +61,7 @@ public class FDPApiTools {
 
       //Verify XML Content
       xmlContent = sw.toString();
-      System.out.println( xmlContent );
+      //System.out.println( xmlContent );
 
     } catch (JAXBException e) {
       e.printStackTrace();
