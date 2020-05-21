@@ -69,6 +69,15 @@ repositories {
 }
 
 dependencies {
+//OAuth2.0 Security
+// https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
+    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.4.RELEASE'
+//Basic Security
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.4.RELEASE'
+// https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20190722'
+//generowanie klienta - metody toString, itp. - nie do końca działało, chociaż metody się wygenerowały
 //    implementation 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.12.0'
 //    wsdl2java 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.12.0'
 //    wsdl2java 'org.jvnet.jaxb2_commons:jaxb2-basics:0.12.0'

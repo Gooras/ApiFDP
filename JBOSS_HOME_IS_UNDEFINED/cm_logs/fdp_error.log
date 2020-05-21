@@ -1,0 +1,138 @@
+09:15:25.033 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+09:15:26.198 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 23764 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+09:15:26.203 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+09:15:26.209 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+09:15:33.111 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+09:15:33.139 [main] DEBUG com.asseco.cm.Config - Config created!
+09:15:33.193 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+09:15:34.420 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+09:15:34.420 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+09:15:36.364 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+09:15:36.364 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+09:15:39.799 [main] INFO  com.asseco.cm.Application - Started Application in 14.469 seconds (JVM running for 15.671)
+09:23:24.965 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Metoda: /cardstatus
+09:23:25.011 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Request: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmCardStatusUpdateRequest>
+    <cardNumber>numer karty</cardNumber>
+    <cardStatus>status karty</cardStatus>
+    <expDate>2020-04-16Z</expDate>
+    <regionCode>region code</regionCode>
+</cmCardStatusUpdateRequest>
+
+09:23:25.442 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Response: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:operationResult xmlns:ns2="http://www.firstdata.pl/wdx/business/card/v5/" xmlns:ns3="http://www.firstdata.pl/wdx/business/card/">
+    <responseDate>2020-05-20</responseDate>
+    <responseTime>13:45:11</responseTime>
+    <wdxMessageId>321</wdxMessageId>
+    <wdxResponseCode>000</wdxResponseCode>
+</ns2:operationResult>
+
+11:39:39.908 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+11:39:41.287 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 1524 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+11:39:41.293 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+11:39:41.297 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+11:39:51.158 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+11:39:51.184 [main] DEBUG com.asseco.cm.Config - Config created!
+11:39:51.243 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+11:39:51.245 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+11:39:51.909 [main] DEBUG com.asseco.cm.Config - Config created!
+11:39:51.928 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+11:52:43.189 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+11:52:45.326 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 4460 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+11:52:45.328 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+11:52:45.333 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+11:52:55.373 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+11:52:55.431 [main] DEBUG com.asseco.cm.Config - Config created!
+11:52:55.513 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+11:52:57.789 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+11:52:57.790 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+11:53:00.681 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+11:53:00.681 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+12:25:39.460 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+12:25:40.775 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 14960 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+12:25:40.794 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+12:25:40.798 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+12:25:50.432 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+12:25:50.482 [main] DEBUG com.asseco.cm.Config - Config created!
+12:25:50.580 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:25:52.287 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:25:52.288 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:25:54.270 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+12:25:54.271 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+12:26:29.286 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+12:26:30.505 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 26632 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+12:26:30.507 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+12:26:30.511 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+12:26:37.435 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+12:26:37.511 [main] DEBUG com.asseco.cm.Config - Config created!
+12:26:37.682 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:26:40.027 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:26:40.039 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:26:42.281 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+12:26:42.282 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+12:26:46.090 [main] INFO  com.asseco.cm.Application - Started Application in 16.553 seconds (JVM running for 17.757)
+12:33:27.611 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+12:33:28.634 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 16056 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+12:33:28.636 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+12:33:28.639 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+12:33:34.356 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+12:33:34.367 [main] DEBUG com.asseco.cm.Config - Config created!
+12:33:34.411 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:33:35.711 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:33:35.712 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:33:38.049 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+12:33:38.049 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+12:33:41.309 [main] INFO  com.asseco.cm.Application - Started Application in 13.41 seconds (JVM running for 14.57)
+12:34:15.005 [http-nio-8090-exec-8] DEBUG com.asseco.cm.FDPProxyXMLController - Metoda: /version ver: 0.0.2
+12:39:52.104 [http-nio-8090-exec-6] DEBUG com.asseco.cm.FDPProxyXMLController - Metoda: /version ver: 0.0.2
+12:40:35.329 [http-nio-8090-exec-5] DEBUG com.asseco.cm.FDPProxyXMLController - Metoda: /cardstatus
+12:40:35.365 [http-nio-8090-exec-5] DEBUG com.asseco.cm.FDPProxyXMLController - Request: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmCardStatusUpdateRequest>
+    <cardNumber>numer karty</cardNumber>
+    <cardStatus>status karty</cardStatus>
+    <expDate>2020-04-16Z</expDate>
+    <regionCode>region code</regionCode>
+</cmCardStatusUpdateRequest>
+
+12:40:35.816 [http-nio-8090-exec-5] DEBUG com.asseco.cm.FDPProxyXMLController - Response: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:operationResult xmlns:ns2="http://www.firstdata.pl/wdx/business/card/v5/" xmlns:ns3="http://www.firstdata.pl/wdx/business/card/">
+    <responseDate>2020-05-20</responseDate>
+    <responseTime>13:45:11</responseTime>
+    <wdxMessageId>321</wdxMessageId>
+    <wdxResponseCode>000</wdxResponseCode>
+</ns2:operationResult>
+
+12:41:22.094 [main] DEBUG com.asseco.cm.Application - (Main) Start aplikacji - loger: ch.qos.logback.classic.Logger
+12:41:23.020 [main] INFO  com.asseco.cm.Application - Starting Application on aps00070852-mb with PID 22676 (C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP\build\classes\java\main started by Grzegorz.Gora in C:\Users\Grzegorz.Gora\Documents\GitHub\ApiFDP)
+12:41:23.024 [main] DEBUG com.asseco.cm.Application - Running with Spring Boot v2.0.4.RELEASE, Spring v5.0.8.RELEASE
+12:41:23.028 [main] INFO  com.asseco.cm.Application - No active profile set, falling back to default profiles: default
+12:41:29.120 [main] DEBUG com.asseco.cm.ClientConfig - ClientConfig created!
+12:41:29.142 [main] DEBUG com.asseco.cm.Config - Config created!
+12:41:29.179 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) WSDL: http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:41:30.413 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) (CardService) Serwis utworzony http://10.17.202.214:8088/mockCardServiceBinding?WSDL
+12:41:34.626 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient utworzony
+12:41:34.627 [main] DEBUG com.asseco.cm.FDPProxyXMLController - (Bean) Klient - interceptory włączone
+12:41:37.123 [main] INFO  com.asseco.cm.Application - Started Application in 14.784 seconds (JVM running for 15.968)
+12:41:45.226 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Metoda: /cardstatus
+12:41:45.256 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Request: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmCardStatusUpdateRequest>
+    <cardNumber>numer karty</cardNumber>
+    <cardStatus>status karty</cardStatus>
+    <expDate>2020-04-16Z</expDate>
+    <regionCode>region code</regionCode>
+</cmCardStatusUpdateRequest>
+
+12:41:45.650 [http-nio-8090-exec-10] DEBUG com.asseco.cm.FDPProxyXMLController - Response: 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:operationResult xmlns:ns2="http://www.firstdata.pl/wdx/business/card/v5/" xmlns:ns3="http://www.firstdata.pl/wdx/business/card/">
+    <responseDate>2020-05-20</responseDate>
+    <responseTime>13:45:11</responseTime>
+    <wdxMessageId>321</wdxMessageId>
+    <wdxResponseCode>000</wdxResponseCode>
+</ns2:operationResult>
+
