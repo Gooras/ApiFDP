@@ -11,7 +11,7 @@
   </appender>
 
   <appender name="FILE-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${JBOSS_HOME}/cm_logs/fdp.log</file>
+    <file>${JBOSS_HOME}/cm_logs/ApiFDP.log</file>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <charset>UTF-8</charset>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -19,24 +19,7 @@
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- rollover daily -->
-      <fileNamePattern>${JBOSS_HOME}/cm_logs/fdp.%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
-      <timeBasedFileNamingAndTriggeringPolicy
-        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-        <maxFileSize>100MB</maxFileSize>
-      </timeBasedFileNamingAndTriggeringPolicy>
-    </rollingPolicy>
-  </appender>
-
-  <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${JBOSS_HOME}/cm_logs/fdp_error.log</file>
-    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <charset>UTF-8</charset>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <!-- rollover daily -->
-      <fileNamePattern>${JBOSS_HOME}/cm_logs/fdp_error.%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+      <fileNamePattern>${JBOSS_HOME}/cm_logs/ApiFDP.%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy
         class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>100MB</maxFileSize>
@@ -50,10 +33,6 @@
 
   <logger name="com.asseco.cm" level="debug" additivity="true">
     <appender-ref ref="FILE-LOG" />
-  </logger>
-
-  <logger name="com.asseco" level="error" additivity="true">
-    <appender-ref ref="FILE-ERROR" />
   </logger>
 
 </configuration>

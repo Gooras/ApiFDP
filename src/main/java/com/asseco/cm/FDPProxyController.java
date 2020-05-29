@@ -22,8 +22,8 @@ import pl.firstdata.wdx.business.card.v5.CardService;
 import pl.firstdata.wdx.business.card.v5.CardService_Service;
 import pl.firstdata.wdx.business.card.v5.OperationResult;
 
-@RestController
-@Lazy
+//@RestController
+//@Lazy
 @RequestMapping("/api")
 public class FDPProxyController {
 

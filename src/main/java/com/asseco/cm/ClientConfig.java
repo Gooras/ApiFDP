@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 @Slf4j
 @Data
 @Configuration
-//@PropertySource("classpath:FDPproxy.properties")
-@PropertySource(value = "classpath:FDPproxy.properties", ignoreResourceNotFound = true)
+//@PropertySource("classpath:ApiFDP.properties")
+@PropertySource(value = "classpath:ApiFDP.properties", ignoreResourceNotFound = true)
 public class ClientConfig {
 
   @Value("${conf.filename:Brak}")
@@ -21,6 +21,9 @@ public class ClientConfig {
 
   @Value("${conf.fdp.wss.enabled:false}")
   public boolean confWSSEnabled;
+
+  @Value("${conf.fdp.log.cxf.enabled:false}")
+  public boolean confLogCXFEnabled;
 
   public ClientConfig () {
     log.debug("ClientConfig created!");

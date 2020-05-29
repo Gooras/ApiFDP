@@ -1,13 +1,6 @@
 package com.asseco.cm;
 
-import static com.asseco.cm.FDPApiTools.myLog;
-
-import com.asseco.cm.fdp.client.CmAccountManagementRequest;
-import com.asseco.cm.fdp.client.CmCardAccountBindingRequest;
-import com.asseco.cm.fdp.client.CmCardIssuingRequest;
-import com.asseco.cm.fdp.client.CmCardIssuingResponse;
-import com.asseco.cm.fdp.client.CmCardStatusUpdateRequest;
-import com.asseco.cm.fdp.client.CmOperationResult;
+import com.asseco.cm.callback.ClientKeyStorePasswordCallback;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,24 +12,41 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
+
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.dom.handler.WSHandlerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
-import javax.xml.namespace.QName;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import pl.firstdata.wdx.business.card.AccountManagementRequest;
 import pl.firstdata.wdx.business.card.CardAccountBindingRequest;
+import pl.firstdata.wdx.business.card.CardIssuingRequest;
 import pl.firstdata.wdx.business.card.CardIssuingResponse;
 import pl.firstdata.wdx.business.card.CardStatusUpdateRequest;
+import pl.firstdata.wdx.business.card.CrtaResponse;
+import pl.firstdata.wdx.business.card.ReadCrtaRequest;
 import pl.firstdata.wdx.business.card.v5.CardService;
 import pl.firstdata.wdx.business.card.v5.CardService_Service;
 import pl.firstdata.wdx.business.card.v5.OperationResult;
+
+import com.asseco.cm.fdp.client.CmAccountManagementRequest;
+import com.asseco.cm.fdp.client.CmCardAccountBindingRequest;
+import com.asseco.cm.fdp.client.CmCardIssuingRequest;
+import com.asseco.cm.fdp.client.CmCardStatusUpdateRequest;
 
 
 @Slf4j
@@ -66,6 +76,10 @@ public class FDPProxyXMLController {
 
     //TODO: zgłosić wyjątek, gdy url nieprawidłowy
     URL url = new URL(clientConf.getConfFdpWsdlUrl());
+    //MOCK Michała
+    //url = new File(
+    //    "C:/Users/Grzegorz.Gora/Desktop/REST/FDPapi/src/main/resources/CardServiceWSSMock.wsdl")
+    //    .toURI().toURL();
     //URL url = new URL(conf.getWsAddress());
     //url = conf.getWsdl();
     log.debug("(Bean) (CardService) WSDL: "+url);
@@ -83,26 +97,38 @@ public class FDPProxyXMLController {
     } else
       log.debug("(Bean) (CardService) Serwis utworzony "+url);
 
-    CardService cardService = service.getCardServicePort();
+    log.debug("(Bean) (CardService_Service): "+service.toString());
 
-    return service.getCardServicePort();
+    cardService = service.getCardServicePort();
+    //CardService cardService = service.getCardServicePort();
+    //this.cardService = cardService;
+    log.debug("Serwis utworzony: " + cardService.toString());
+
+    client = (Client) cardService;
+    log.debug("(Bean) Klient utworzony " + client.toString());
+//    addInterceptors(client);
+    addInterceptors();
+    log.debug("(Bean) Klient - interceptory włączone");
+
+    //return service.getCardServicePort();
+    return cardService;
   }
 
-  @Bean
-  public Client client() {
+  //@Bean
+  /*public Client client(CardService cardService) {
     Client cli = (Client) cardService;
-    log.debug("(Bean) Klient utworzony");
+    log.debug("(Bean) Klient utworzony " + cli.toString());
     //TODO - interceptory do logowania, interceptory do WSS jak włączony parametr
-    addInterceptors(cli);
+    //addInterceptors(cli);
     log.debug("(Bean) Klient - interceptory włączone");
     return cli;
-  }
+  }*/
 
 //Właściwe metody REST
 
   @RequestMapping(value = FDPRestURIConstants.ACC_MNGMT, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-//  public OperationResult accountManagement(@RequestBody AccountManagementRequest request) {
-  public OperationResult accountManagement(@RequestBody CmAccountManagementRequest request) {
+  public OperationResult accountManagement(@RequestBody AccountManagementRequest request) {
+//  public OperationResult accountManagement(@RequestBody CmAccountManagementRequest request) {
 
     log.debug("Metoda: " + FDPRestURIConstants.ACC_MNGMT);
     log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
@@ -112,8 +138,8 @@ public class FDPProxyXMLController {
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_ISS, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-//  public OperationResult cardIssuing(@RequestBody CardIssuingRequest request) {
-  public OperationResult cardIssuing(@RequestBody CmCardIssuingRequest request) {
+  public OperationResult cardIssuing(@RequestBody CardIssuingRequest request) {
+//  public OperationResult cardIssuing(@RequestBody CmCardIssuingRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_ISS);
     log.debug("Request (XML): " + nl + FDPApiTools.jaxbObjectToXML(request));
     CardIssuingResponse result = cardService.cardIssuing(request);
@@ -122,8 +148,8 @@ public class FDPProxyXMLController {
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_BIND, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-//  public OperationResult binding(@RequestBody CardAccountBindingRequest request) {
-  public OperationResult binding(@RequestBody CmCardAccountBindingRequest request) {
+  public OperationResult binding(@RequestBody CardAccountBindingRequest request) {
+//  public OperationResult binding(@RequestBody CmCardAccountBindingRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_BIND);
     log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
     OperationResult result = cardService.cardAccountBinding(request);
@@ -132,8 +158,8 @@ public class FDPProxyXMLController {
   }
 
   @RequestMapping(value = FDPRestURIConstants.CARD_STATUS, consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-//  public OperationResult cardStatus(@RequestBody CardStatusUpdateRequest request) {
-  public OperationResult cardStatus(@RequestBody CmCardStatusUpdateRequest request) {
+  public OperationResult cardStatus(@RequestBody CardStatusUpdateRequest request) {
+//  public OperationResult cardStatus(@RequestBody CmCardStatusUpdateRequest request) {
     log.debug("Metoda: " + FDPRestURIConstants.CARD_STATUS);
     log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
     OperationResult result = cardService.updateCardStatus(request);
@@ -150,12 +176,71 @@ public class FDPProxyXMLController {
         + nl + "<br/>conf: "+clientConf.getConfFilename();
   }
 
-  private void addInterceptors(Client cli) {
+  //do testów WSS na MOCKu:
+  @RequestMapping(value = "/testWSScrta", consumes = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+  public CrtaResponse crta(@RequestBody ReadCrtaRequest request) {
+    log.debug("Metoda: " + "/testWSScrta");
+    log.debug("Request: " + nl + FDPApiTools.jaxbObjectToXML(request));
+    log.debug("Serwis: " + cardService.toString());
+    log.debug("Klient: " + client.toString());
+    CrtaResponse result = cardService.readCrta(request);
+    log.debug("Response: " + nl + FDPApiTools.jaxbObjectToXML(result));
+    return result;
+  }
+
+
+//  private void addInterceptors(Client cli) {
+  public void addInterceptors() {
 
     if (clientConf.getConfWSSEnabled()) {
 
+      log.debug("interceptory WSS Start - Klient: " + client.toString());
+
+      //Incoming
+      Map<String, Object> incomingProps = new HashMap<String, Object>();
+      incomingProps.put(WSHandlerConstants.ACTION,
+          WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.SIGNATURE + " " + WSHandlerConstants.ENCRYPT);
+      incomingProps.put(WSHandlerConstants.SIG_PROP_FILE, "clientKeyStore.properties");
+      incomingProps.put(WSHandlerConstants.DEC_PROP_FILE, "clientKeyStore.properties");//odpowiednik truststore
+      incomingProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeyStorePasswordCallback.class.getName());
+      incomingProps.put(WSHandlerConstants.ALLOW_RSA15_KEY_TRANSPORT_ALGORITHM, "true");
+
+      WSS4JInInterceptor wssIncoming = new WSS4JInInterceptor(incomingProps);
+      System.out.println("FDPProxyXMLController - interceptory do logowania - In: "+wssIncoming.toString());
+      client.getInInterceptors().add(wssIncoming);
+
+      //Outgoing
+      Map<String, Object> outgoingProps = new HashMap<String, Object>();
+
+      outgoingProps.put(WSHandlerConstants.ACTION,
+          WSHandlerConstants.SIGNATURE + " " + WSHandlerConstants.ENCRYPT);
+      outgoingProps.put(WSHandlerConstants.SIG_PROP_FILE, "clientKeyStore.properties");
+      outgoingProps.put(WSHandlerConstants.ENC_PROP_FILE, "clientKeyStore.properties");
+      outgoingProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeyStorePasswordCallback.class.getName());
+
+//to dziaĹ‚a z FDP
+//        outgoingProps.put(WSHandlerConstants.USER, "nsb");
+//to dziaĹ‚a z mockiem
+      outgoingProps.put(WSHandlerConstants.USER, "fdp");
+      outgoingProps.put(WSHandlerConstants.ENCRYPTION_USER, "fdp");
+      outgoingProps.put(WSHandlerConstants.SIGNATURE_PARTS,
+          "{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body");
+      outgoingProps.put(WSHandlerConstants.ENCRYPTION_PARTS,
+          "{Element}{http://www.w3.org/2000/09/xmldsig#}Signature;{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body");
+      outgoingProps.put(WSHandlerConstants.ENC_SYM_ALGO, WSConstants.AES_128);
+//    outgoingProps.put(WSHandlerConstants.ALLOW_RSA15_KEY_TRANSPORT_ALGORITHM, "true");
+
+      WSS4JOutInterceptor wssOutgoing = new WSS4JOutInterceptor(outgoingProps);
+      client.getOutInterceptors().add(wssOutgoing);
+      log.debug("wssOutgoing: " + String.valueOf(client.getOutInterceptors().contains(wssOutgoing)));
+    }
+
+    log.debug("interceptory WSS Stop");
+
+    /*if (clientConf.isConfLogCXFEnabled()) {
+
       if (conf.getLoggingInEnabled()) {
-        myLog("DemoController - interceptory do logowania - In");
+        log.debug("FDPProxyXMLController - interceptory do logowania - In");
         LoggingInInterceptor loggerIn = new LoggingInInterceptor();
         PrintWriter writerIn = null;
         try {
@@ -167,11 +252,11 @@ public class FDPProxyXMLController {
         }
 
         loggerIn.setPrintWriter(writerIn);
-        cli.getInInterceptors().add(loggerIn);
+        client.getInInterceptors().add(loggerIn);
       }
 
       if (conf.getLoggingOutEnabled()) {
-        myLog("DemoController - interceptory do logowania - Out");
+        log.debug("FDPProxyXMLController - interceptory do logowania - Out");
         PrintWriter writerOut = null;
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
@@ -204,11 +289,13 @@ public class FDPProxyXMLController {
         }
 
         LoggingOutInterceptor loggerOut = new LoggingOutInterceptor(writerOut);
-        cli.getOutInterceptors().add(loggerOut);
+//???
+//    LoggingOutInterceptor loggerOut = new LoggingOutInterceptor((PrintWriter) log);
+        client.getOutInterceptors().add(loggerOut);
       }
 
     }//koniec warunku 1=0
-
+*/
   }
 
 }

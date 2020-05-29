@@ -15,9 +15,9 @@ public class ClientKeyStorePasswordCallback implements CallbackHandler {
   public ClientKeyStorePasswordCallback() {
     //System.out.println("Konstruktor ClientKeyStorePasswordCallback");
 
-    passwords.put("fdp", "fdppass");
     passwords.put("ca", "fdppass");
     passwords.put("nsb", "jbossws");
+    passwords.put("fdp", "fdppass");
   }
 
   @Override

@@ -56,10 +56,11 @@ wsdl2java {
 //apply plugin: 'war'
 war {
     enabled=true
+    archiveName "ApiFDP.war"
 }
 
 group 'com.asseco.cm'
-version '1.0-SNAPSHOT'
+version '0.0.3'
 
 sourceCompatibility = 1.8
 
@@ -71,10 +72,13 @@ repositories {
 dependencies {
 //OAuth2.0 Security
 // https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
-    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.4.RELEASE'
+//    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.4.RELEASE'
 //Basic Security
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.4.RELEASE'
+//potrzebne do szyfrowania na WF
+// https://mvnrepository.com/artifact/com.sun.xml.messaging.saaj/saaj-impl
+    compile group: 'com.sun.xml.messaging.saaj', name: 'saaj-impl', version: '1.5.2'
 // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20190722'
 //generowanie klienta - metody toString, itp. - nie do końca działało, chociaż metody się wygenerowały

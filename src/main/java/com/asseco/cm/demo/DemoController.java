@@ -59,8 +59,8 @@ import pl.firstdata.wdx.business.card.v5.CardService;
 import pl.firstdata.wdx.business.card.v5.CardService_Service;
 import pl.firstdata.wdx.business.card.v5.OperationResult;
 
-@RestController
-@Lazy
+//@RestController
+//@Lazy
 @RequestMapping("/demo")
 public class DemoController {
 
@@ -93,9 +93,9 @@ public class DemoController {
   Config conf;
 
   CardService_Service cService;
-  @Autowired
+  //@Autowired
   CardService cardService;
-  @Autowired
+  //@Autowired
   Client client;
 
   static {
@@ -103,7 +103,7 @@ public class DemoController {
     //System.out.println("Autowired: " + conf.getWsAddress());
   }
 
-  @Bean
+  //@Bean
   public CardService cardService() throws MalformedURLException {
     //URL url = new URL("http://localhost:8088/mockCardServiceBinding?wsdl");
     URL url = new URL(conf.getWsAddress());
@@ -119,7 +119,7 @@ public class DemoController {
     return service.getCardServicePort();
   }
 
-  @Bean
+  //@Bean
   public Client client() {
       Client cli = (Client) cardService;
       System.out.println("Bean Client "+cli.toString());
@@ -128,7 +128,8 @@ public class DemoController {
   }
 
   //wyłączony konstruktor
-  public void DemoControllerTest() {
+  //public DemoController() {
+  public void DemoController() {
     try {
       System.out.println("DemoController - konstruktor");
       System.out.println("Url1: " + wsdlUrl);
@@ -156,7 +157,7 @@ public class DemoController {
     }
 //    CardService_Service cService = new CardService_Service(wsdl_url, //WSDL_LOCATION,
 
-    wsdl_url = ClassLoader.getSystemResource("CardServiceWSSMock.wsdl");
+    //wsdl_url = ClassLoader.getSystemResource("CardServiceWSSMock.wsdl");
     System.out.println("wsdl_url "+wsdl_url);
 
     System.out.println("cService");
@@ -168,11 +169,15 @@ public class DemoController {
     //cService = new CardService_Service();
 
 //    CardService cardService = cService.getCardServicePort();
-    System.out.println("cardService");
-    //cardService = cService.getCardServicePort();
+    System.out.println("cardService_Service: "+cService.toString());
+
+    cardService = cService.getCardServicePort();
+
+    System.out.println("Service: "+cardService.toString());
 
     System.out.println("DemoController - interceptory Start");
     client = (Client) cardService;
+    System.out.println("Klient: "+client.toString());
 
 //    client.getInInterceptors().add(new LoggingInInterceptor());
 //    endpoint = client.getEndpoint();
@@ -183,7 +188,7 @@ public class DemoController {
         WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.SIGNATURE + " "
             + WSHandlerConstants.ENCRYPT);
     incomingProps.put(WSHandlerConstants.SIG_PROP_FILE, "clientKeyStore.properties");
-    incomingProps.put(WSHandlerConstants.DEC_PROP_FILE, "clientKeyStore.properties");
+    incomingProps.put(WSHandlerConstants.DEC_PROP_FILE, "clientKeyStore.properties");//odpowiednik truststore
     incomingProps
         .put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeyStorePasswordCallback.class.getName());
     incomingProps.put(WSHandlerConstants.ALLOW_RSA15_KEY_TRANSPORT_ALGORITHM, "true");
@@ -287,6 +292,7 @@ public class DemoController {
 
     System.out.println("DemoController - interceptory do logowania");
     //client.getInInterceptors().add(new MyLoggingInInterceptor());
+    System.out.println("Klient: "+client.toString());
 
     System.out.println(
         "DemoController - konstruktor wykonany, serwis utworzony" + cardService.toString());
@@ -566,11 +572,15 @@ public class DemoController {
     System.out.println("AD1 + "+wsAddressLocal);
     System.out.println("AD2 + "+wsAddress127);
     System.out.println("AD3 + "+conf.getWsAddress());
+    System.out.println("Klient: "+client.toString());
+    System.out.println("Serwis: "+cardService.toString());
 
 
     ReadCrtaRequest crtaRequest = new ReadCrtaRequest();
     System.out.println("GetTest 1");
     crtaRequest.setCardNumber(id);
+
+    System.out.println("GetTest 2.1 "+ cardService.toString());
     System.out.println("GetTest 2 "+ id);
     CrtaResponse crtaResponse = cardService.readCrta(crtaRequest);
     System.out.println("GetTest 3");
